@@ -1,0 +1,24 @@
+{
+  "name": "ubs-notify-mona",
+  "$schema": "node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "src",
+  "projectType": "application",
+  "targets": {
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "ubs-notify-mona:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "ubs-notify-mona:build:development"
+        },
+        "production": {
+          "buildTarget": "ubs-notify-mona:build:production"
+        }
+      }
+    }
+  },
+  "tags": []
+}
