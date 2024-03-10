@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  NotFoundException,
   Param,
   Post,
   Put,
@@ -10,11 +12,15 @@ import {
 
 import { Roles, RolesGuard } from '@ubs-platform/users-mona-roles';
 import { JwtAuthGuard } from '@ubs-platform/users-mona-microservice-helper';
-import { BaseCrudService } from 'src/app/service/base/base-crud.service';
+import { IBaseCrudService } from 'src/app/service/base/base-crud.service';
 
-export const BaseCrudServiceClassGenerator = () => {
-  class ControllerClass<MODEL, INPUT extends { id }, OUTPUT> {
-    constructor(private service: BaseCrudService<MODEL, INPUT, OUTPUT>) {}
+export const BaseCrudControllerGenerator = <
+  MODEL,
+  INPUT extends { _id },
+  OUTPUT
+>() => {
+  class ControllerClass {
+    constructor(private service: IBaseCrudService<MODEL, INPUT, OUTPUT>) {}
 
     @UseGuards()
     @Get()
@@ -32,10 +38,16 @@ export const BaseCrudServiceClassGenerator = () => {
       return await this.service.create(body);
     }
 
-    @Put('/:id')
+    @Put()
     async edit(@Body() body: INPUT) {
-      return await this.service.create(body);
+      if (body._id == null) {
+        throw new NotFoundException();
+      }
+      return await this.service.edit(body);
     }
+
+    @Delete(':id')
+    async remove(@Param() { id }: { id: any }) {}
   }
 
   return ControllerClass;

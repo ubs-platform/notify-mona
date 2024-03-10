@@ -10,7 +10,6 @@ import {
 
 import { Roles, RolesGuard } from '@ubs-platform/users-mona-roles';
 import { JwtAuthGuard } from '@ubs-platform/users-mona-microservice-helper';
-import { BaseCrudService } from 'src/app/service/base/base-crud.service';
 
 export const BaseSimpleControllerBuilder = <OUTPUT>(
   authenticated: boolean,
