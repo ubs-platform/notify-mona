@@ -49,8 +49,12 @@ export const BaseCrudControllerGenerator = <
     let authorization = findExistAuth(field);
     // if (meta == null) meta = {};
     const guard = UseGuards(
-      authorization.needsAuthenticated ? JwtAuthGuard : null,
-      authorization.roles ? RolesGuard : null
+      ...[
+        authorization.needsAuthenticated ? JwtAuthGuard : null,
+        authorization.needsAuthenticated && authorization.roles
+          ? RolesGuard
+          : null,
+      ].filter((a) => a)
     );
     const roles = Roles(authorization.roles);
 
@@ -60,14 +64,6 @@ export const BaseCrudControllerGenerator = <
     };
   };
 
-  // let roles = [];
-  // let guard = [];
-  // if (r === true) {
-  // } else if (r != null) {
-
-  // } else {
-
-  // }
   class ControllerClass {
     constructor(private service: IBaseCrudService<MODEL, INPUT, OUTPUT>) {}
 
