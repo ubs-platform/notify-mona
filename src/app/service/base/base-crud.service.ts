@@ -14,7 +14,12 @@ export interface IBaseCrudService<MODEL, INPUT extends { _id }, OUTPUT> {
   remove(id: string | ObjectId): Promise<OUTPUT>;
 }
 
-export const BaseCrudServiceGenerate = <MODEL, INPUT extends { _id }, OUTPUT>(
+export const BaseCrudServiceGenerate = <
+  MODEL,
+  INPUT extends { _id },
+  OUTPUT,
+  SEARCH
+>(
   modelName: string
 ) => {
   abstract class BaseCrudService {
@@ -22,6 +27,7 @@ export const BaseCrudServiceGenerate = <MODEL, INPUT extends { _id }, OUTPUT>(
 
     abstract toOutput(m: MODEL): Promise<OUTPUT> | OUTPUT;
     abstract moveIntoModel(model: MODEL, i: INPUT): Promise<MODEL> | MODEL;
+    abstract searchParams(s: SEARCH): { [key: string]: any };
 
     async fetchAll(): Promise<OUTPUT[]> {
       const list = await this.m.find().exec(),

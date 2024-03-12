@@ -19,7 +19,6 @@ import {
   RoleAuthorizationConfigKey,
   RoleAuthorizationDetailed,
 } from './controller-configuration';
-import { ROUTES } from '@nestjs/core/router/router-module';
 
 export const BaseCrudControllerGenerator = <
   MODEL,
