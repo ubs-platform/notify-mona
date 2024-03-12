@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 
@@ -23,7 +24,8 @@ import {
 export const BaseCrudControllerGenerator = <
   MODEL,
   INPUT extends { _id },
-  OUTPUT
+  OUTPUT,
+  SEARCH
 >(
   r?: ControllerConfiguration
 ) => {
@@ -64,16 +66,22 @@ export const BaseCrudControllerGenerator = <
   };
 
   class ControllerClass {
-    constructor(private service: IBaseCrudService<MODEL, INPUT, OUTPUT>) {}
+    constructor(
+      private service: IBaseCrudService<MODEL, INPUT, OUTPUT, SEARCH>
+    ) {}
 
     // @UseGuards(...generateGuardAndRolesEtc('GETALL')[0])
     // @Roles(generateGuardAndRolesEtc('GETALL')[1])
     @RoleConfig('GETALL')
     @Get()
-    async fetchAll() {
-      return await this.service.fetchAll();
+    async fetchAll(@Query() s?: SEARCH) {
+      return await this.service.fetchAll(s);
     }
-
+    @RoleConfig('GETALL')
+    @Get('_search')
+    async search(@Query() s?: SEARCH & { page?: number; size?: number }) {
+      return await this.service.searchPagination(s);
+    }
     @Get('/:id')
     @RoleConfig('GETID')
     async fetchOne(@Param() { id }: { id: any }) {
