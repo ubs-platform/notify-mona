@@ -1,7 +1,5 @@
 import { Module } from '@nestjs/common';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { BackendJwtUtilsModule } from '@ubs-platform/users-mona-microservice-helper';
 import { Mongoose } from 'mongoose';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -11,6 +9,12 @@ import {
 } from './model/email-template.model';
 import { EmailTemplateController } from './controller/email-template.controller';
 import { EmailTemplateService } from './service/email-template.service';
+import {
+  GlobalVariable,
+  GlobalVariableSchema,
+} from './model/global-variable.model';
+import { GlobalVariableService } from './service/global-variable.service';
+import { GlobalVariableController } from './controller/global-variable.controller';
 
 @Module({
   imports: [
@@ -25,9 +29,10 @@ import { EmailTemplateService } from './service/email-template.service';
     ),
     MongooseModule.forFeature([
       { name: EmailTemplate.name, schema: EmailTemplateSchema },
+      { name: GlobalVariable.name, schema: GlobalVariableSchema },
     ]),
   ],
-  controllers: [AppController, EmailTemplateController],
-  providers: [AppService, EmailTemplateService],
+  controllers: [EmailTemplateController, GlobalVariableController],
+  providers: [EmailTemplateService, GlobalVariableService],
 })
 export class AppModule {}
