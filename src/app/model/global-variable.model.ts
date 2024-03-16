@@ -7,11 +7,11 @@ export class GlobalVariable {
   @Prop()
   name: String;
 
-  @Prop()
-  language: String;
+  //   @Prop()
+  //   language: String;
 
-  @Prop()
-  value: String;
+  @Prop(Array<{ language: string; value: string }>)
+  values: Array<{ language: string; value: string }> = [];
 }
 
 export const GlobalVariableSchema =
