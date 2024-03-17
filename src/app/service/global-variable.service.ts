@@ -68,4 +68,56 @@ export class GlobalVariableService {
       })
     );
   }
+
+  private async apply(
+    text: string,
+    specialVariables: { [keys: string]: string },
+    language?: string,
+    preventRecursive?: boolean
+  ) {
+    // const text = 'Dear {user},  {your_need} please do not forget {your_need}';
+    const variableRegex = /(\{[0-9\w]*\})/g;
+    // const ac = variableRegex.exec(text);
+    const matches = text.matchAll(variableRegex);
+    const variableList: string[] = [];
+    let variableWithCurlyPhantesisPre;
+    do {
+      variableWithCurlyPhantesisPre = matches.next()?.value?.[0];
+      if (
+        variableWithCurlyPhantesisPre &&
+        !variableList.includes(variableWithCurlyPhantesisPre)
+      ) {
+        variableList.push(variableWithCurlyPhantesisPre);
+      }
+    } while (variableWithCurlyPhantesisPre != null);
+    let textNew = text;
+
+    for (let index = 0; index < variableList.length; index++) {
+      const variableWithCurlyPhantesis = variableList[index];
+      const variableName = variableWithCurlyPhantesis.substring(
+        0,
+        variableWithCurlyPhantesis.length
+      );
+      let variableValue = specialVariables[variableName];
+      if (!variableValue) {
+        const globalVar = (await this.findByName(variableName)).values;
+        variableValue = globalVar[language] || globalVar['_'];
+        if (variableValue) {
+          if (!preventRecursive) {
+            variableValue = await this.apply(
+              variableValue,
+              specialVariables,
+              language,
+              true
+            );
+          }
+          textNew = textNew
+            .split(variableWithCurlyPhantesis)
+            .join(`${variableValue}`);
+        }
+      }
+    }
+    return textNew;
+    // console.info(variableList);
+  }
 }
