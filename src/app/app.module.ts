@@ -15,7 +15,9 @@ import {
 } from './model/global-variable.model';
 import { GlobalVariableService } from './service/global-variable.service';
 import { GlobalVariableController } from './controller/global-variable.controller';
-
+import { MailerModule } from '@nestjs-modules/mailer';
+import Handlebars from 'handlebars';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 @Module({
   imports: [
     BackendJwtUtilsModule,
@@ -31,6 +33,19 @@ import { GlobalVariableController } from './controller/global-variable.controlle
       { name: EmailTemplate.name, schema: EmailTemplateSchema },
       { name: GlobalVariable.name, schema: GlobalVariableSchema },
     ]),
+    MailerModule.forRoot({
+      transport: 'smtps://user@domain.com:pass@smtp.domain.com',
+      defaults: {
+        from: '"nest-modules" <modules@nestjs.com>',
+      },
+      template: {
+        dir: __dirname + '/templates',
+        adapter: new HandlebarsAdapter(),
+        options: {
+          strict: true,
+        },
+      },
+    }),
   ],
   controllers: [EmailTemplateController, GlobalVariableController],
   providers: [EmailTemplateService, GlobalVariableService],

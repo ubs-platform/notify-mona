@@ -23,6 +23,7 @@
     "@ubs-platform/users-mona-microservice-helper": "1.1.1",
     "@ubs-platform/users-mona-roles": "1.1.1",
     "axios": "^1.6.0",
+    "handlebars": "^4.7.8",
     "kafkajs": "^2.2.4",
     "mongoose": "^6.6.1",
     "nodemailer": "^6.9.12",
