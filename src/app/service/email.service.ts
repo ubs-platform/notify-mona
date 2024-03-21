@@ -2,20 +2,31 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
 import { publicDecrypt } from 'crypto';
 import { GlobalVariableService } from './global-variable.service';
-
+import { EmailTemplateService } from './email-template.service';
+import { EmailDto } from '../dto/email.dto';
+import * as Handlebars from 'handlebars';
 @Injectable()
 export class EmailService {
   constructor(
     private mailerService: MailerService,
-    private variableService: GlobalVariableService
+    private globalVariableService: GlobalVariableService,
+    private templateService: EmailTemplateService
   ) {}
 
-  public sendWithTemplate() {
-    const template = Handlebars.compile('Handlebars <b>{{doesWhat}}</b>');
-
-    this.mailerService.sendMail({
-      to,
-      subject,
+  public async sendWithTemplate(em: EmailDto) {
+    const temp = await this.templateService.fetchOne(em.templateId);
+    const expandedGlobals =
+      await this.globalVariableService.globalVariableApply({
+        text: temp.htmlContent,
+        language: em.language,
+      });
+    const applyTemplate = Handlebars.compile(expandedGlobals);
+    const txt = applyTemplate(em.specialVariables);
+    console.info(txt);
+    await this.mailerService.sendMail({
+      html: txt,
+      subject: em.subject,
+      to: em.to,
     });
   }
 }

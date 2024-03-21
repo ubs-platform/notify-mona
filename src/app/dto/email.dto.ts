@@ -1,6 +1,7 @@
-export interface EmailObject {
+export interface EmailDto {
   to: string;
   subject: string;
-  templateName: string;
-  specialVariables: { [keys: string]: string };
+  templateId: string;
+  specialVariables: any;
+  language?: string;
 }

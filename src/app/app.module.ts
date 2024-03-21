@@ -18,6 +18,8 @@ import { GlobalVariableController } from './controller/global-variable.controlle
 import { MailerModule } from '@nestjs-modules/mailer';
 import Handlebars from 'handlebars';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import { EmailController } from './controller/email-operation.controller';
+import { EmailService } from './service/email.service';
 @Module({
   imports: [
     BackendJwtUtilsModule,
@@ -34,20 +36,25 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
       { name: GlobalVariable.name, schema: GlobalVariableSchema },
     ]),
     MailerModule.forRoot({
-      transport: 'smtps://user@domain.com:pass@smtp.domain.com',
+      transport: 'smtp://localhost:25',
+
       defaults: {
-        from: '"nest-modules" <modules@nestjs.com>',
+        from: 'info@tester.tetakent.com',
       },
-      template: {
-        dir: __dirname + '/templates',
-        adapter: new HandlebarsAdapter(),
-        options: {
-          strict: true,
-        },
-      },
+      // template: {
+      //   dir: __dirname + '/templates',
+      //   adapter: new HandlebarsAdapter(),
+      //   options: {
+      //     strict: true,
+      //   },
+      // },
     }),
   ],
-  controllers: [EmailTemplateController, GlobalVariableController],
-  providers: [EmailTemplateService, GlobalVariableService],
+  controllers: [
+    EmailTemplateController,
+    GlobalVariableController,
+    EmailController,
+  ],
+  providers: [EmailTemplateService, GlobalVariableService, EmailService],
 })
 export class AppModule {}

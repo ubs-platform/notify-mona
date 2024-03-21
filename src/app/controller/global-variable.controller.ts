@@ -34,6 +34,6 @@ export class GlobalVariableController {
   @Post('apply')
   @UseGuards(JwtAuthGuard)
   async apply(@Body() body: VariableExpansion) {
-    return await this.s.apply(body);
+    return await this.s.globalVariableApply(body);
   }
 }

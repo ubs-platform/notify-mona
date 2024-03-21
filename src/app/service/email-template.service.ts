@@ -26,7 +26,7 @@ export class EmailTemplateService extends BaseCrudServiceGenerate<
     return searchQueries;
   }
   toOutput(m?: EmailTemplate): EmailTemplateDTO | Promise<EmailTemplateDTO> {
-    return { htmlContent: m.htmlContent, _id: m._id };
+    return { htmlContent: m.htmlContent as string, _id: m._id as string };
   }
   moveIntoModel(
     model: EmailTemplate,
