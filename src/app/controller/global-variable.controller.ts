@@ -12,6 +12,7 @@ import { Roles, RolesGuard } from '@ubs-platform/users-mona-roles';
 import { GlobalVariableService } from '../service/global-variable.service';
 import { GlobalVariableWriteDTO } from '../dto/global-variable-write.dto';
 import { VariableExpansion } from '../dto/expansion-input.dto';
+import { GlobalVariableDTO } from '../dto/global-variable';
 
 @Controller('global-variable')
 export class GlobalVariableController {
@@ -31,9 +32,10 @@ export class GlobalVariableController {
     return await this.s.editOne(body);
   }
 
-  @Post('apply')
-  @UseGuards(JwtAuthGuard)
-  async apply(@Body() body: VariableExpansion) {
-    return await this.s.globalVariableApply(body);
-  }
+  // @Put()
+  // @UseGuards(JwtAuthGuard, RolesGuard)
+  // @Roles(['ADMIN'])
+  // async edit(@Body() body: GlobalVariableDTO[]) {
+  //   return await this.s.editAll(body);
+  // }
 }
