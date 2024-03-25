@@ -105,7 +105,9 @@ export const BaseCrudControllerGenerator = <
 
     @Delete(':id')
     @RoleConfig('REMOVE')
-    async remove(@Param() { id }: { id: any }) {}
+    async remove(@Param() { id }: { id: any }) {
+      return await this.service.remove(id);
+    }
   }
 
   return ControllerClass;
