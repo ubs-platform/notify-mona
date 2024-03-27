@@ -24,11 +24,11 @@ import { EmailService } from './service/email.service';
   imports: [
     BackendJwtUtilsModule,
     MongooseModule.forRoot(
-      `mongodb://${process.env.NX_MONGO_USERNAME}:${
-        process.env.NX_MONGO_PASSWORD
-      }@${process.env.NX_MONGO_URL || 'localhost'}/?authMechanism=DEFAULT`,
+      `mongodb://${process.env.UBS_APP_MONGO_USERNAME}:${
+        process.env.UBS_APP_MONGO_PASSWORD
+      }@${process.env.UBS_APP_MONGO_URL || 'localhost'}/?authMechanism=DEFAULT`,
       {
-        dbName: process.env.NX_MONGO_DBNAME || 'ubs_users',
+        dbName: process.env.UBS_APP_MONGO_DBNAME || 'ubs_users',
       }
     ),
     MongooseModule.forFeature([
