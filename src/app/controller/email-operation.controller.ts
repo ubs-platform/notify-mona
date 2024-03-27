@@ -2,6 +2,7 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { GlobalVariableService } from '../service/global-variable.service';
 import { EmailService } from '../service/email.service';
 import { EmailDto } from '../dto/email.dto';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 
 @Controller('email')
 export class EmailController {
@@ -9,6 +10,11 @@ export class EmailController {
 
   @Post()
   public async sendEmail(@Body() mail: EmailDto) {
+    await this.s.sendWithTemplate(mail);
+  }
+
+  @MessagePattern('email')
+  public async sendMailBg(@Payload() mail: EmailDto) {
     await this.s.sendWithTemplate(mail);
   }
 }
