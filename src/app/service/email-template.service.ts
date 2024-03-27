@@ -21,6 +21,13 @@ export class EmailTemplateService extends BaseCrudServiceGenerate<
           $regex: '.*' + s.htmlContentContains + '.*',
         };
       }
+
+      if (s.nameContains != null) {
+        searchQueries.htmlContent = {
+          // like search
+          $regex: '.*' + s.nameContains + '.*',
+        };
+      }
     }
 
     return searchQueries;
@@ -39,6 +46,7 @@ export class EmailTemplateService extends BaseCrudServiceGenerate<
     i: EmailTemplateDTO
   ): EmailTemplate | Promise<EmailTemplate> {
     model.htmlContent = i.htmlContent;
+    model.name = i.name;
     return model;
   }
 }

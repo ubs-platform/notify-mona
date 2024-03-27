@@ -35,7 +35,7 @@ export const BaseCrudServiceGenerate = <
 
     abstract toOutput(m: MODEL): Promise<OUTPUT> | OUTPUT;
     abstract moveIntoModel(model: MODEL, i: INPUT): Promise<MODEL> | MODEL;
-    abstract searchParams(s?: SEARCH): FilterQuery<MODEL>;
+    abstract searchParams(s?: Partial<SEARCH>): FilterQuery<MODEL>;
 
     private async fetchFilteredAndPaginated(
       s: SEARCH & { page?: number; size?: number }
@@ -110,7 +110,7 @@ export const BaseCrudServiceGenerate = <
       return this.searchResult(list, s.page, s.size, maxItemLength);
     }
 
-    async fetchAll(s?: SEARCH): Promise<OUTPUT[]> {
+    async fetchAll(s?: Partial<SEARCH>): Promise<OUTPUT[]> {
       const list = await this.m.find(this.searchParams(s)).exec();
       return await this.convertAndReturnTheList(list);
     }

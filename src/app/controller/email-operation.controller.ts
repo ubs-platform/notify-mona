@@ -13,8 +13,9 @@ export class EmailController {
     await this.s.sendWithTemplate(mail);
   }
 
-  @MessagePattern('email')
+  @MessagePattern('email-reset')
   public async sendMailBg(@Payload() mail: EmailDto) {
+    console.info(mail);
     await this.s.sendWithTemplate(mail);
   }
 }

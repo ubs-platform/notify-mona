@@ -14,19 +14,25 @@ export class EmailService {
   ) {}
 
   public async sendWithTemplate(em: EmailDto) {
-    const temp = await this.templateService.fetchOne(em.templateId);
-    const expandedGlobals =
-      await this.globalVariableService.globalVariableApply({
-        text: temp.htmlContent,
-        language: em.language,
-      });
-    const applyTemplate = Handlebars.compile(expandedGlobals);
-    const txt = applyTemplate(em.specialVariables);
-    console.info(txt);
-    await this.mailerService.sendMail({
-      html: txt,
-      subject: em.subject,
-      to: em.to,
+    const templates = await this.templateService.fetchAll({
+      nameContains: em.templateName,
     });
+    if (templates.length > 0) {
+      const temp = templates[0];
+      const expandedGlobals =
+        await this.globalVariableService.globalVariableApply({
+          text: temp.htmlContent,
+          language: em.language,
+        });
+      const applyTemplate = Handlebars.compile(expandedGlobals);
+      const txt = applyTemplate(em.specialVariables);
+      console.info(txt);
+      await this.mailerService.sendMail({
+        html: txt,
+        subject: em.subject,
+        to: em.to,
+      });
+    } else {
+    }
   }
 }
