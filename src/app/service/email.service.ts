@@ -17,6 +17,7 @@ export class EmailService {
     const templates = await this.templateService.fetchAll({
       nameContains: em.templateName,
     });
+    console.info(templates);
     if (templates.length > 0) {
       const temp = templates[0];
       const expandedGlobals =

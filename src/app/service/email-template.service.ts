@@ -23,7 +23,7 @@ export class EmailTemplateService extends BaseCrudServiceGenerate<
       }
 
       if (s.nameContains != null) {
-        searchQueries.htmlContent = {
+        searchQueries.name = {
           // like search
           $regex: '.*' + s.nameContains + '.*',
         };
