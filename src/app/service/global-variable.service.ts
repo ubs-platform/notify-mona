@@ -70,7 +70,7 @@ export class GlobalVariableService {
     const TOKEN_START_INDEX = 9;
     const TOKEN_END_INDEX = 2;
     // const text = 'Dear {user},  {your_need} please do not forget {your_need}';
-    const variableRegex = /(\{\{global:[0-9\w]*\}\})/g;
+    const variableRegex = /(\{\{global:[0-9\w-_]*\}\})/g;
     // const ac = variableRegex.exec(text);
     const matches = text.matchAll(variableRegex);
     const variableList: string[] = [];
@@ -90,6 +90,7 @@ export class GlobalVariableService {
         TOKEN_START_INDEX,
         variableWithCurlyPhantesis.length - TOKEN_END_INDEX
       );
+      console.info(variableName);
       const globalVar = (await this.findByName(variableName))?.values;
       let variableValue = this.getTranslation(globalVar, language);
       if (variableValue) {
