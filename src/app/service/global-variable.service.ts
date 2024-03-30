@@ -50,14 +50,6 @@ export class GlobalVariableService {
     });
   }
 
-  async getTranslation(name: string, language?: string) {
-    const exist = await this.findByName(name);
-    if (exist) {
-      return exist.values[language] || exist.values['_'] || name;
-    }
-    return name;
-  }
-
   private async searchOrCreateNew(name: string) {
     return (
       (await this.globalVariableModel.findOne({
@@ -99,7 +91,7 @@ export class GlobalVariableService {
         variableWithCurlyPhantesis.length - TOKEN_END_INDEX
       );
       const globalVar = (await this.findByName(variableName))?.values;
-      let variableValue = globalVar?.[language] || globalVar?.['_'];
+      let variableValue = this.getTranslation(globalVar, language);
       if (variableValue) {
         textNew = textNew
           .split(variableWithCurlyPhantesis)
@@ -108,5 +100,16 @@ export class GlobalVariableService {
     }
     return textNew;
     // console.info(variableList);
+  }
+
+  private getTranslation(
+    globalVar: { language: string; value: string }[],
+    language: string
+  ) {
+    return globalVar
+      ? globalVar[language] ||
+          globalVar[process.env.UNOTIFY_DEFAULT_LANGUAGE] ||
+          globalVar['en-us']
+      : '';
   }
 }
