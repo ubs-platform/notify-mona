@@ -13,6 +13,7 @@ import { GlobalVariableService } from '../service/global-variable.service';
 import { GlobalVariableWriteDTO } from '../dto/global-variable-write.dto';
 import { VariableExpansion } from '../dto/expansion-input.dto';
 import { GlobalVariableDTO } from '../dto/global-variable';
+import { GlobalVariableRenameDTO } from '../dto/global-variable-rename';
 
 @Controller('global-variable')
 export class GlobalVariableController {
@@ -30,6 +31,20 @@ export class GlobalVariableController {
   @Roles(['ADMIN'])
   async edit(@Body() body: GlobalVariableWriteDTO) {
     return await this.s.editOne(body);
+  }
+
+  @Put('rename')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(['ADMIN'])
+  async renameTo(@Body() body: GlobalVariableRenameDTO) {
+    return await this.s.rename(body);
+  }
+
+  @Put('dublicate')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(['ADMIN'])
+  async dublicate(@Body() { id }: { id: any }) {
+    return await this.s.dublicate(id);
   }
 
   // @Put()

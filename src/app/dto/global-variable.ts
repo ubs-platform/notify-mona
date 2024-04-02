@@ -1,4 +1,5 @@
 export interface GlobalVariableDTO {
-  name: String;
+  id: string;
+  name: string;
   values: Array<{ language: string; value: string }>;
 }

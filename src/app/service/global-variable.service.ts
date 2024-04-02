@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { GlobalVariable } from '../model/global-variable.model';
 import { Model } from 'mongoose';
 import { GlobalVariableWriteDTO } from '../dto/global-variable-write.dto';
 import { GlobalVariableDTO } from '../dto/global-variable';
 import { VariableExpansion as GlobalVariableExpansion } from '../dto/expansion-input.dto';
+import { GlobalVariableRenameDTO } from '../dto/global-variable-rename';
 
 @Injectable()
 export class GlobalVariableService {
@@ -13,12 +14,36 @@ export class GlobalVariableService {
     public globalVariableModel: Model<GlobalVariable>
   ) {}
 
+  async rename(body: GlobalVariableRenameDTO) {
+    let variable = await this.globalVariableModel.findById(body._id);
+    if (variable) {
+      variable.name = body.name;
+      variable = await variable.save();
+      return this.toDto(variable);
+    }
+    throw new NotFoundException('not-found.global-variable');
+  }
+
+  async dublicate(id: any) {
+    let variable = await this.globalVariableModel.findById(id);
+    if (variable) {
+      let newVar = new this.globalVariableModel();
+      newVar.name = variable.name + ' ' + new Date().toISOString();
+      newVar.values = { ...variable.values };
+      newVar.markModified('values');
+      newVar = await newVar.save();
+      return this.toDto(newVar);
+    }
+    throw new NotFoundException('not-found.global-variable');
+  }
+
   toDto(a?: GlobalVariable): GlobalVariableDTO {
     if (a == null) {
       return null;
     }
     return {
-      name: a.name,
+      id: a._id.toString(),
+      name: a.name.toString(),
       values: a.values,
     };
   }
