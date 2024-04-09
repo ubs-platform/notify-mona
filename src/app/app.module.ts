@@ -36,10 +36,10 @@ import { EmailService } from './service/email.service';
       { name: GlobalVariable.name, schema: GlobalVariableSchema },
     ]),
     MailerModule.forRoot({
-      transport: 'smtp://localhost:25',
+      transport: process.env.UNOTIFY_MAIL_TRANSPORT,
 
       defaults: {
-        from: 'info@tester.tetakent.com',
+        from: process.env.UNOTIFY_MAIL_FROM,
       },
       // template: {
       //   dir: __dirname + '/templates',
