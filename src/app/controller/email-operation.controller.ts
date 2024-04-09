@@ -1,8 +1,8 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { GlobalVariableService } from '../service/global-variable.service';
 import { EmailService } from '../service/email.service';
-import { EmailDto } from '../dto/email.dto';
 import { EventPattern, MessagePattern, Payload } from '@nestjs/microservices';
+import { EmailDto } from '@ubs-platform/notify-common';
 
 @Controller('email')
 export class EmailController {

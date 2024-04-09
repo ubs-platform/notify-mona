@@ -2,11 +2,14 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { GlobalVariable } from '../model/global-variable.model';
 import { Model } from 'mongoose';
-import { GlobalVariableWriteDTO } from '../dto/global-variable-write.dto';
-import { GlobalVariableDTO } from '../dto/global-variable';
-import { VariableExpansion as GlobalVariableExpansion } from '../dto/expansion-input.dto';
-import { GlobalVariableRenameDTO } from '../dto/global-variable-rename';
 
+// import { GlobalVariableRenameDTO } from '../dto/global-variable-rename';
+import {
+  GlobalVariableDTO,
+  GlobalVariableRenameDTO,
+  GlobalVariableWriteDTO,
+  VariableExpansion,
+} from '@ubs-platform/notify-common';
 @Injectable()
 export class GlobalVariableService {
   constructor(
@@ -87,10 +90,7 @@ export class GlobalVariableService {
     );
   }
 
-  public async globalVariableApply({
-    text,
-    language,
-  }: GlobalVariableExpansion) {
+  public async globalVariableApply({ text, language }: VariableExpansion) {
     let textNew = text;
     const TOKEN_START_INDEX = 9;
     const TOKEN_END_INDEX = 2;

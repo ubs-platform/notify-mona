@@ -10,10 +10,11 @@ import {
 import { JwtAuthGuard } from '@ubs-platform/users-mona-microservice-helper';
 import { Roles, RolesGuard } from '@ubs-platform/users-mona-roles';
 import { GlobalVariableService } from '../service/global-variable.service';
-import { GlobalVariableWriteDTO } from '../dto/global-variable-write.dto';
-import { VariableExpansion } from '../dto/expansion-input.dto';
-import { GlobalVariableDTO } from '../dto/global-variable';
-import { GlobalVariableRenameDTO } from '../dto/global-variable-rename';
+import {
+  GlobalVariableDTO,
+  GlobalVariableRenameDTO,
+  GlobalVariableWriteDTO,
+} from '@ubs-platform/notify-common';
 
 @Controller('global-variable')
 export class GlobalVariableController {

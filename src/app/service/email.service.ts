@@ -3,8 +3,9 @@ import { Injectable } from '@nestjs/common';
 import { publicDecrypt } from 'crypto';
 import { GlobalVariableService } from './global-variable.service';
 import { EmailTemplateService } from './email-template.service';
-import { EmailDto } from '../dto/email.dto';
+
 import * as Handlebars from 'handlebars';
+import { EmailDto } from '@ubs-platform/notify-common';
 @Injectable()
 export class EmailService {
   constructor(

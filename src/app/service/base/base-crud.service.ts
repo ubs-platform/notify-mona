@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { SearchResult } from '@ubs-platform/notify-common';
 import { FilterQuery, HydratedDocument, Model, ObjectId } from 'mongoose';
-import { SearchResult } from 'src/app/dto/base/search-result.dto';
 export interface IBaseCrudService<
   MODEL,
   INPUT extends { _id },

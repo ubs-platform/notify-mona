@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { EmailTemplate } from '../model/email-template.model';
-import { EmailTemplateDTO } from '../dto/email-template.dto';
 import { BaseCrudServiceGenerate } from './base/base-crud.service';
-import { EmailTemplateSearch } from '../dto/email-template.search';
 import { FilterQuery } from 'mongoose';
+import {
+  EmailTemplateDTO,
+  EmailTemplateSearch,
+} from '@ubs-platform/notify-common';
 
 @Injectable()
 export class EmailTemplateService extends BaseCrudServiceGenerate<
