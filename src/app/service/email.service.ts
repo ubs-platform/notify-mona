@@ -21,17 +21,23 @@ export class EmailService {
     console.info(templates);
     if (templates.length > 0) {
       const temp = templates[0];
-      const expandedGlobals =
+      const messageExpandedGlobals =
         await this.globalVariableService.globalVariableApply({
           text: temp.htmlContent,
           language: em.language,
         });
-      const applyTemplate = Handlebars.compile(expandedGlobals);
+
+      const subjectExpandedGlobals =
+        await this.globalVariableService.globalVariableApply({
+          text: em.subject,
+          language: em.language,
+        });
+      const applyTemplate = Handlebars.compile(messageExpandedGlobals);
       const txt = applyTemplate(em.specialVariables);
       console.info(txt);
       await this.mailerService.sendMail({
         html: txt,
-        subject: em.subject,
+        subject: subjectExpandedGlobals,
         to: em.to,
       });
     } else {
