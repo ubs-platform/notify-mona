@@ -20,6 +20,8 @@ import Handlebars from 'handlebars';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { EmailController } from './controller/email-operation.controller';
 import { EmailService } from './service/email.service';
+import nodemailer from 'nodemailer';
+
 @Module({
   imports: [
     BackendJwtUtilsModule,
@@ -36,8 +38,26 @@ import { EmailService } from './service/email.service';
       { name: GlobalVariable.name, schema: GlobalVariableSchema },
     ]),
     MailerModule.forRoot({
-      transport: process.env.UNOTIFY_MAIL_TRANSPORT,
-
+      transport: nodemailer.createTransport({
+        host: process.env.UNOTIFY_MAIL_SERVER_HOST,
+        port: process.env.UNOTIFY_MAIL_SERVER_PORT,
+        secure: true, // use TLS
+        auth:
+          process.env.UNOTIFY_MAIL_SERVER_UNAME ||
+          process.env.UNOTIFY_MAIL_SERVER_PW
+            ? {
+                user: process.env.UNOTIFY_MAIL_SERVER_UNAME,
+                pass: process.env.UNOTIFY_MAIL_SERVER_PW,
+              }
+            : null,
+        tls: {
+          // do not fail on invalid certs
+          rejectUnauthorized: !(
+            process.env.UNOTIFY_MAIL_CERT_IGNORE_SSL &&
+            process.env.UNOTIFY_MAIL_CERT_IGNORE_SSL != 'false'
+          ),
+        },
+      }),
       defaults: {
         from: process.env.UNOTIFY_MAIL_FROM,
       },
