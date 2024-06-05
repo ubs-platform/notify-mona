@@ -38,7 +38,7 @@ import nodemailer from 'nodemailer';
       { name: GlobalVariable.name, schema: GlobalVariableSchema },
     ]),
     MailerModule.forRoot({
-      transport: nodemailer.createTransport({
+      transport: nodemailer.createTransport('SMTP', {
         host: process.env.UNOTIFY_MAIL_SERVER_HOST,
         port: process.env.UNOTIFY_MAIL_SERVER_PORT,
         secure: true, // use TLS
