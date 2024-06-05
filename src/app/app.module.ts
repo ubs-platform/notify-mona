@@ -38,26 +38,38 @@ import nodemailer from 'nodemailer';
       { name: GlobalVariable.name, schema: GlobalVariableSchema },
     ]),
     MailerModule.forRoot({
-      transport: nodemailer.createTransport({
-        host: process.env.UNOTIFY_MAIL_SERVER_HOST,
-        port: process.env.UNOTIFY_MAIL_SERVER_PORT,
-        secure: true, // use TLS
-        auth:
-          process.env.UNOTIFY_MAIL_SERVER_UNAME ||
-          process.env.UNOTIFY_MAIL_SERVER_PW
-            ? {
-                user: process.env.UNOTIFY_MAIL_SERVER_UNAME,
-                pass: process.env.UNOTIFY_MAIL_SERVER_PW,
-              }
-            : null,
-        tls: {
-          // do not fail on invalid certs
-          rejectUnauthorized: !(
-            process.env.UNOTIFY_MAIL_CERT_IGNORE_SSL &&
-            process.env.UNOTIFY_MAIL_CERT_IGNORE_SSL != 'false'
-          ),
-        },
-      }),
+      transport: `smtp://${process.env.UNOTIFY_MAIL_SERVER_UNAME}:${
+        process.env.UNOTIFY_MAIL_SERVER_PW
+      }@${process.env.UNOTIFY_MAIL_SERVER_HOST}${
+        process.env.UNOTIFY_MAIL_SERVER_PORT
+          ? ':' + process.env.UNOTIFY_MAIL_SERVER_PORT
+          : ''
+      }`,
+      // transport: nodemailer.createTransport({
+
+      //   name: process.env.UNOTIFY_MAIL_SERVER_HOST,
+      //   host: process.env.UNOTIFY_MAIL_SERVER_HOST,
+      //   servername: process.env.UNOTIFY_MAIL_SERVER_HOST,
+      //   port: process.env.UNOTIFY_MAIL_SERVER_PORT,
+      //   secure: true, // use TLS
+      //   debug: true,
+      //   logs: true,
+      //   auth:
+      //     process.env.UNOTIFY_MAIL_SERVER_UNAME ||
+      //     process.env.UNOTIFY_MAIL_SERVER_PW
+      //       ? {
+      //           user: process.env.UNOTIFY_MAIL_SERVER_UNAME,
+      //           pass: process.env.UNOTIFY_MAIL_SERVER_PW,
+      //         }
+      //       : null,
+      //   tls: {
+      //     // do not fail on invalid certs
+      //     rejectUnauthorized: !(
+      //       process.env.UNOTIFY_MAIL_CERT_IGNORE_SSL &&
+      //       process.env.UNOTIFY_MAIL_CERT_IGNORE_SSL != 'false'
+      //     ),
+      //   },
+      // }),
       defaults: {
         from: process.env.UNOTIFY_MAIL_FROM,
       },
