@@ -132,6 +132,7 @@ export class GlobalVariableService {
     globalVar: { language: string; value: string }[],
     language: string
   ) {
+    console.info(language);
     return globalVar
       ? globalVar[language] ||
           globalVar[process.env.UNOTIFY_DEFAULT_LANGUAGE] ||

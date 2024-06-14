@@ -1,1 +1,1 @@
-./release-tool.sh ver2.0.1 . ./libs/common
+./release-tool.sh ver$VERSION . ./libs/common

@@ -34,7 +34,6 @@ export class EmailService {
         });
       const applyTemplate = Handlebars.compile(messageExpandedGlobals);
       const txt = applyTemplate(em.specialVariables);
-      console.info(txt);
       await this.mailerService.sendMail({
         html: txt,
         subject: subjectExpandedGlobals,
