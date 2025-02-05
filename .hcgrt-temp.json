@@ -1,1 +1,1 @@
-[ { "name": "", "directory": "ver", "relativeDependencyLength": 0 }, { "name": "@ubs-notify-mona/source", "directory": ".", "relativeDependencyLength": 0 }, { "name": "@ubs-platform/notify-common", "directory": "./libs/common", "relativeDependencyLength": 0 } ]
+[ { "name": "@ubs-notify-mona/source", "directory": ".", "relativeDependencyLength": 0 }, { "name": "@ubs-platform/notify-common", "directory": "./libs/common", "relativeDependencyLength": 0 } ]
